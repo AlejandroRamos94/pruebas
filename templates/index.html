@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Python + SocketIO</h1>
+
+    <ul id="mensajes">
+        <input type="text" id="mymessages">
+        <button type="button" id="send">Enviar</button>
+    </ul>
+
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+        const socket = io(); //conexion
+        //emit se le agrega el nombre del evento en python y el parametro en este caso 'hola'
+        //socket.emit('message', 'hola');
+
+        //jquery
+
+        socket.on('message', function(msg){
+
+            $('#mensajes').append('<li>' + msg + '</li>')
+
+        });
+
+        // cuando se haga clic en el boton de id Send, se ejecuta una funcion de javascript
+        $('#send').on('click', function(){
+            // busca el id mymessages del input, y envia la informacion a python, no hace falta especificar
+            // el evento
+            socket.send($('#mymessages').val());
+            //deja el campo en blanco
+            $('#mymessages').val('');
+
+        });
+        
+
+
+    </script>
+
+</body>
+</html>
